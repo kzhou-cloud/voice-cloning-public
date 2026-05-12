@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Voice "Cloning" is Style Transfer</title>
+  <meta name="description" content="Voice cloning systems do not faithfully clone voices. They apply style transfer — making voices sound more authoritative, warmer, more trustworthy, and more native-English than the originals.">
+
+  <!-- Open Graph (link previews on X, LinkedIn, Slack, etc.) -->
+  <meta property="og:title" content='Voice "Cloning" is Style Transfer'>
+  <meta property="og:description" content="Voice cloning models do not faithfully clone voices. They apply style transfer — and listeners trust the cloned voices more than the originals.">
+  <meta property="og:image" content="figures/fig_ratings.png">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content='Voice "Cloning" is Style Transfer'>
+  <meta name="twitter:description" content="Voice cloning models do not faithfully clone voices. They apply style transfer — and listeners trust the cloned voices more than the originals.">
+  <meta name="twitter:image" content="figures/fig_ratings.png">
+
+  <style>
+    :root {
+      --fg: #1a1a1a;
+      --muted: #555;
+      --accent: #c0392b;
+      --accent-soft: #fdecea;
+      --rule: #e6e6e6;
+      --bg: #fafafa;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      line-height: 1.65;
+      margin: 0;
+      color: var(--fg);
+      background: var(--bg);
+    }
+    header.hero {
+      background: linear-gradient(180deg, #ffffff, #f3f3f3);
+      border-bottom: 1px solid var(--rule);
+      padding: 4rem 1.25rem 3rem;
+      text-align: center;
+    }
+    header.hero h1 {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1.1;
+      margin: 0 0 0.6rem;
+      letter-spacing: -0.01em;
+    }
+    header.hero h1 em {
+      color: var(--accent);
+      font-style: italic;
+    }
+    header.hero .authors {
+      font-size: 1rem;
+      color: var(--muted);
+      margin: 0.5rem 0 1.4rem;
+    }
+    header.hero .affil {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .cta {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+      margin-top: 1.6rem;
+    }
+    .cta a {
+      display: inline-block;
+      padding: 0.55rem 1.05rem;
+      border: 1px solid var(--fg);
+      border-radius: 999px;
+      color: var(--fg);
+      text-decoration: none;
+      font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+      font-size: 0.92rem;
+      background: white;
+      transition: background 0.15s, color 0.15s;
+    }
+    .cta a:hover { background: var(--fg); color: white; }
+    .cta a.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .cta a.primary:hover { background: #962b1f; border-color: #962b1f; }
+
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 6rem;
+    }
+    main h2 {
+      font-size: 1.6rem;
+      margin: 2.6rem 0 0.6rem;
+      letter-spacing: -0.005em;
+    }
+    main h3 {
+      font-size: 1.15rem;
+      margin: 1.6rem 0 0.4rem;
+      font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    p { margin: 0.7rem 0 1rem; }
+    .lede {
+      font-size: 1.18rem;
+      color: var(--fg);
+    }
+    figure {
+      margin: 1.6rem 0 2rem;
+    }
+    figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid var(--rule);
+      background: white;
+    }
+    figure figcaption {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+      line-height: 1.5;
+    }
+
+    .audio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem 1.4rem;
+      margin: 1rem 0 1.6rem;
+    }
+    @media (max-width: 600px) {
+      .audio-grid { grid-template-columns: 1fr; }
+    }
+    .audio-card {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 0.9rem 1rem 0.8rem;
+    }
+    .audio-card.source { border-left: 4px solid #4a6fa5; }
+    .audio-card.cloned { border-left: 4px solid var(--accent); }
+    .audio-card .label {
+      font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .audio-card audio { width: 100%; margin-top: 0.2rem; }
+    .audio-card .label .clone-model {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 0.05rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      letter-spacing: 0.03em;
+      margin-left: 0.15rem;
+    }
+    .pair-heading {
+      font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin: 1.4rem 0 0.4rem;
+    }
+
+    blockquote.pullquote {
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      margin: 1.8rem 0;
+      padding: 0.9rem 1.2rem;
+      font-size: 1.08rem;
+      color: var(--fg);
+    }
+
+    .key-findings {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 1.6rem;
+    }
+    .key-findings li {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-left: 4px solid var(--accent);
+      padding: 0.85rem 1rem;
+      margin: 0.55rem 0;
+      border-radius: 6px;
+    }
+    .key-findings li > strong:first-child {
+      display: block;
+      font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+    .key-findings li strong { color: var(--fg); }
+
+    .likert-legend {
+      display: flex;
+      align-items: stretch;
+      gap: 6px;
+      margin: 1.4rem 0 0.4rem;
+      font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+    }
+    .likert-legend .step {
+      flex: 1 1 0;
+      padding: 0.55rem 0.5rem 0.6rem;
+      text-align: center;
+      font-size: 0.83rem;
+      color: var(--fg);
+      line-height: 1.25;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .likert-legend .step:nth-child(1) { background: #dbe7f4; }
+    .likert-legend .step:nth-child(2) { background: #c2d4ea; }
+    .likert-legend .step:nth-child(3) { background: #e8e1d3; }
+    .likert-legend .step:nth-child(4) { background: #f3c8b4; }
+    .likert-legend .step:nth-child(5) { background: #ed9a82; }
+    .likert-legend .step .num {
+      display: block;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: rgba(0,0,0,0.55);
+      margin-bottom: 0.15rem;
+    }
+    .likert-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+      margin: 0.1rem 0 1.4rem;
+      line-height: 1.5;
+    }
+
+    footer {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+      font-family: ui-sans-serif, -apple-system, system-ui, sans-serif;
+      font-size: 0.9rem;
+      color: var(--muted);
+      border-top: 1px solid var(--rule);
+    }
+    footer a { color: var(--muted); }
+    code.bib {
+      display: block;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      background: #f4f4f4;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 0.9rem 1rem;
+      font-size: 0.82rem;
+      white-space: pre-wrap;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>Voice <em>"Cloning"</em> is Style Transfer</h1>
+  <p class="authors">Kaitlyn Zhou, Federico Bianchi, Martijn Bartelds, Anna Pot, Yongchan Kwon, James Zou</p>
+  <p class="affil">Cornell University &nbsp;&middot;&nbsp; Together AI &nbsp;&middot;&nbsp; Stanford University</p>
+  <div class="cta">
+    <a class="primary" href="#paper-link">Read the paper &mdash; coming soon</a>
+    <a href="#listen">Listen to examples</a>
+    <a href="#findings">Key findings</a>
+    <a href="#cite">Cite</a>
+  </div>
+</header>
+
+<main>
+
+<p class="lede">
+Voice cloning is marketed as a faithful copy of someone's voice. Across three widely used systems &mdash;
+<strong>ElevenLabs&nbsp;V3</strong>, <strong>Coqui-XTTS</strong>, and <strong>Chatterbox</strong> &mdash; we find
+that cloning is closer to <em>style transfer</em>: it systematically reshapes voices to sound warmer,
+more authoritative, more native-English, and more "humanlike" than the originals &mdash; and listeners
+trust the cloned voices more.
+</p>
+
+<figure>
+  <img src="figures/pipeline.png" alt="Study pipeline: 86 non-native English speakers record audio, three voice cloning models generate clones, 177 annotators rate paired clips.">
+  <figcaption>We recorded 86 non-native English speakers reading the Grandfather Passage, cloned each recording with three TTS systems, and had 177 monolingual English annotators rate paired source and cloned clips on a 1&ndash;5 Likert scale across seven dimensions. Cloned and original recordings were reordered to prevent annotators from deciphering which ones were generated.</figcaption>
+</figure>
+
+<h2 id="listen">Listen for yourself</h2>
+<p>
+Each pair below contains a source recording from a non-native English speaker and a clone generated
+from that speaker's voice. Pay attention to accent.
+</p>
+
+<!--
+  MODEL LABELS for each clone are placeholders. The packaged WAVs in audio/ don't
+  carry model metadata; all three are 24 kHz mono PCM, which is consistent with
+  Chatterbox OR Coqui-XTTS output. Edit the .clone-model spans below to whichever
+  model generated each clip.
+-->
+
+<div class="pair-heading">Example 1</div>
+<div class="audio-grid">
+  <div class="audio-card source">
+    <div class="label">Source (human)</div>
+    <audio controls preload="none" src="audio/ex1_original.wav"></audio>
+  </div>
+  <div class="audio-card cloned">
+    <div class="label">Cloned &middot; <span class="clone-model">Chatterbox</span></div>
+    <audio controls preload="none" src="audio/ex1_cloned.wav"></audio>
+  </div>
+</div>
+
+<div class="pair-heading">Example 2</div>
+<div class="audio-grid">
+  <div class="audio-card source">
+    <div class="label">Source (human)</div>
+    <audio controls preload="none" src="audio/ex2_original.wav"></audio>
+  </div>
+  <div class="audio-card cloned">
+    <div class="label">Cloned &middot; <span class="clone-model">Chatterbox</span></div>
+    <audio controls preload="none" src="audio/ex2_cloned.wav"></audio>
+  </div>
+</div>
+
+<div class="pair-heading">Example 3</div>
+<div class="audio-grid">
+  <div class="audio-card source">
+    <div class="label">Source (human)</div>
+    <audio controls preload="none" src="audio/ex3_original.wav"></audio>
+  </div>
+  <div class="audio-card cloned">
+    <div class="label">Cloned &middot; <span class="clone-model">Chatterbox</span></div>
+    <audio controls preload="none" src="audio/ex3_cloned.wav"></audio>
+  </div>
+</div>
+
+<h2 id="findings">Five things we found</h2>
+
+<ul class="key-findings">
+  <li><strong>Finding 1 &middot; Style shift</strong>
+    Clones are rated more <em>authoritative</em> (<strong>+19%</strong>), more <em>warm</em> (<strong>+14%</strong>), more <em>customer-service-like</em> (<strong>+20%</strong>), and more <em>humanlike</em> (<strong>+14%</strong>) than the source recordings they came from.
+  </li>
+  <li><strong>Finding 2 &middot; Trust shift</strong>
+    Annotators report higher trust in cloned voices (<strong>+18%</strong>) and are more willing to have an intimate conversation with the clone (<strong>+17%</strong>) than with the original speaker.
+  </li>
+  <li><strong>Finding 3 &middot; Accent homogenization</strong>
+    Source speakers come from 22 language backgrounds. Their clones are pulled toward dominant Anglophone varieties: US, UK, Canadian, Australian, NZ. Native-English rating jumps <strong>+33%</strong>.
+  </li>
+  <li><strong>Finding 4 &middot; Identity collapse</strong>
+    A speaker-identity classifier reaches 85% accuracy on sources but only 41% on clones &mdash; a <strong>52% drop</strong>. Cross-sex misidentification roughly doubles. Speakers become harder to tell apart.
+  </li>
+  <li><strong>Finding 5 &middot; Iterative drift &amp; convergence</strong>
+    Cloning a clone, 50 times over, produces directional drift: pitch climbs, cosine similarity to the source collapses from <strong>0.65 to 0.15</strong>, and embeddings cluster together. The "style" is convergent.
+  </li>
+</ul>
+
+<p class="likert-note" style="margin-top:1.4rem;">
+The x-axis is the standard 1&ndash;5 Likert response scale. E.g., a <strong>+20%</strong> shift on customer-service-likeness moves the average from roughly "slightly" to between "slightly" and "moderately".
+</p>
+
+<div class="likert-legend" aria-label="5-point Likert scale used for ratings">
+  <div class="step"><span class="num">1</span>Not at all</div>
+  <div class="step"><span class="num">2</span>Slightly</div>
+  <div class="step"><span class="num">3</span>Moderately</div>
+  <div class="step"><span class="num">4</span>Quite a bit</div>
+  <div class="step"><span class="num">5</span>Extremely</div>
+</div>
+
+<figure>
+  <img src="figures/fig_ratings.png" alt="Dumbbell chart showing cloned voices rated higher than source voices across seven Likert dimensions.">
+  <figcaption><strong>Figure 1.</strong> Paired ratings, aggregated across ElevenLabs V3, Coqui-XTTS, and Chatterbox. Every dimension shifts in the same direction: clones sound more authoritative, more warm, more native, more trustworthy, more humanlike. All differences significant at the 95% level via permutation test.</figcaption>
+</figure>
+
+<blockquote class="pullquote">
+Cloned voices are rated more humanlike than the humans they were cloned from &mdash; a speech analogue of the <em>hyperrealism</em> seen in AI-generated faces <a href="https://doi.org/10.1177/09567976231207095">(Miller et al., 2023)</a>.
+</blockquote>
+
+<h2>Why this matters</h2>
+
+<h3>For users who want to preserve their voice</h3>
+<p>
+Voice cloning is increasingly used in <em>identity-preserving</em> applications &mdash; finishing a recording, dubbing across languages, or restoring speech for someone who has lost theirs. In all of these settings, fidelity is the whole point. If the clone quietly removes a speaker's accent or smooths their cadence into a customer-service register, the technology is failing at its stated job.
+</p>
+
+<h3>For everyone who hears a cloned voice</h3>
+<p>
+Listeners trust cloned voices <em>more</em> than the originals, and report being more willing to disclose personal information to them. As synthetic voices show up in customer service, claims processing, and increasingly in scam calls, that asymmetry is a behavioral safety story, not just an aesthetic one.
+</p>
+
+<h3>For cultural diversity</h3>
+<p>
+The homogenization isn't random &mdash; it points at a specific prototype: fluent, "Standard" English, often Anglophone. The Sankey diagram below shows source accents on the left and the classifier's read of the cloned voice on the right. Coqui-XTTS pulls every speaker into one of the five Anglophone varieties (<strong>US, UK, Canadian, Australian,</strong> or <strong>New Zealand English</strong>).
+</p>
+
+<figure>
+  <img src="figures/fig_accent_sankey.png" alt="Three side-by-side flow diagrams showing speakers reclassified from non-native to Anglophone English after cloning. Coqui-XTTS reassigns 100% of non-native speakers; Chatterbox and ElevenLabs each reassign 78%.">
+  <figcaption><strong>Figure 2.</strong> Source accent (left bar) vs. CommonAccent classification of the cloned audio (right bar). Red ribbons trace speakers whose accent gets reassigned from a non-native variety to an Anglophone one. Coqui-XTTS reassigns <strong>100%</strong> of non-native speakers; Chatterbox and ElevenLabs each reassign <strong>78%</strong>.</figcaption>
+</figure>
+
+<h2>What happens if you clone a clone?</h2>
+<p>
+We took each speaker's audio and ran 50 rounds of iterative cloning with Chatterbox. If cloning were faithful, the recordings should hover near the source. Instead, embeddings drift in a consistent direction, then converge into a single cluster &mdash; pitch climbs, similarity to the original collapses, and male and female speakers end up indistinguishable in embedding space.
+</p>
+
+<figure>
+  <video src="figures/embeddings_movie.mp4"
+         poster="figures/fig_pca_snapshots_strip.png"
+         controls autoplay loop muted playsinline
+         preload="metadata"
+         style="width:100%; height:auto; border:1px solid var(--rule); border-radius:6px; background:white;">
+    <img src="figures/embeddings_movie.gif" alt="Animated PCA of ECAPA-TDNN speaker embeddings across 50 rounds of iterative cloning. Male and female speaker clouds start separated and collapse into a single cluster.">
+  </video>
+  <figcaption><strong>Figure 3.</strong> 50 rounds of iterative cloning with Chatterbox, visualized as a PCA of ECAPA-TDNN speaker embeddings. Each frame is one round of recursive cloning. At round&nbsp;0 (the source recordings), male (blue) and female (red) speakers form clearly separated clouds. By round&nbsp;50, the two clouds have collapsed into a single cluster &mdash; the model is converging to a fixed point in embedding space.</figcaption>
+</figure>
+
+<figure>
+  <img src="figures/fig_pca_snapshots_strip.png" alt="Three side-by-side PCA scatter plots at rounds 1, 25, and 50. Round 1 shows two clearly separated male and female clusters. Round 25 shows overlap beginning. Round 50 shows a single merged cluster.">
+  <figcaption><strong>Figure 3b.</strong> Static snapshots from the animation above &mdash; rounds 1, 25, and 50, same PCA basis.</figcaption>
+</figure>
+
+<h2>How we did it</h2>
+<p>
+We recruited 86 non-native English speakers via Prolific (sex-balanced, ages 19&ndash;64, self-reported accent strength 0&ndash;10) and asked them to read the <em>Grandfather Passage</em> &mdash; a nine-sentence standard text used in speech assessment. We split each recording into sentence-level clips, quality-checked them, and used <em>cross-sentence cloning</em>: the model gets sentence&nbsp;<em>&ell;</em> as reference and is asked to produce sentence&nbsp;<em>&ell;+1</em>, so it must extract generalizable speaker features rather than copy phonetic content.
+</p>
+<p>
+Annotators were monolingual US English speakers recruited via Prolific. Each session shuffled 10 source and 10 cloned clips from one model and one speaker-sex, so annotators were blind to which clips were human. We collected <strong>4,000 paired annotations from 177 annotators</strong>.
+</p>
+
+<h2 id="paper-link">The paper, the data, the code</h2>
+<p>
+<strong>Paper:</strong> arXiv &mdash; coming soon<br>
+<strong>Audio examples:</strong> OSF &mdash; coming soon<br>
+<strong>Code:</strong> coming soon<br>
+<strong>Dataset:</strong> the 86-speaker, 699-clip corpus will be released on Hugging Face for non-commercial research &mdash; coming soon.
+</p>
+
+<h2 id="cite">Cite this work</h2>
+<code class="bib">@article{zhou2026voicecloning,
+  title  = {Voice "Cloning" is Style Transfer},
+  author = {Zhou, Kaitlyn and Bianchi, Federico and Bartelds, Martijn
+            and Pot, Anna and Kwon, Yongchan and Zou, James},
+  year   = {2026},
+  note   = {Preprint}
+}</code>
+
+</main>
+
+<footer>
+  <p>
+    Correspondence: <a href="mailto:kaitlynz@cornell.edu">kaitlynz@cornell.edu</a> &nbsp;&middot;&nbsp;
+    Funding: Together AI &nbsp;&middot;&nbsp;
+    IRB-approved; participants paid $18/hour.
+  </p>
+</footer>
+
+</body>
+</html>
