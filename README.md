@@ -2,7 +2,7 @@
 
 This is the project page for our preprint **"Voice *'Cloning'* is Style Transfer"**.
 
-🌐 **Live page:** https://kzhou-cloud.github.io/voice_cloning_public/
+🌐 **Live page:** https://kzhou-cloud.github.io/voice-cloning-public/
 
 The page includes:
 - 🎧 Paired source / cloned audio examples (3 speakers, 6 clips)
