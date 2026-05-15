@@ -1,0 +1,36 @@
+Voice "Cloning" is Style Transfer — Audio Dataset
+Copyright (c) 2026 Kaitlyn Zhou and contributors
+
+This dataset is licensed under the Creative Commons
+Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).
+Full license text: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+In addition to the terms of CC BY-NC 4.0, the following uses are
+explicitly forbidden:
+
+  1. Generating, enabling, or promoting hate speech, harassment,
+     discrimination, misinformation, or culturally offensive content.
+
+  2. Beyond explicit research purposes, voice cloning, speaker
+     impersonation, or the creation of synthetic voices intended to
+     resemble or replicate any participant in the dataset.
+
+  3. Attempting to identify, re-identify, or infer the identity of any
+     participant, including attempts to extract personally identifiable
+     information from the audio or associated metadata.
+
+  4. Any commercial, for-profit, or revenue-generating use, including
+     product development, advertising, or monetized services.
+
+  5. Any use that misrepresents, stereotypes, or falsely attributes
+     characteristics, language abilities, accents, or identities to the
+     speakers.
+
+  6. Redistribution of the dataset under terms that conflict with or
+     weaken these restrictions.
+
+By downloading or using this dataset you confirm that your intended use
+complies with all of the above.
+
+If you are a study participant and would like your audio removed from
+this dataset, contact kaitlynz@cornell.edu.

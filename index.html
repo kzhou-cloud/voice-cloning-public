@@ -9,12 +9,12 @@
   <!-- Open Graph (link previews on X, LinkedIn, Slack, etc.) -->
   <meta property="og:title" content='Voice "Cloning" is Style Transfer'>
   <meta property="og:description" content="Voice cloning models do not faithfully clone voices. They apply style transfer — and listeners trust the cloned voices more than the originals.">
-  <meta property="og:image" content="figures/fig_ratings.png">
+  <meta property="og:image" content="site_assets/fig_ratings.png">
   <meta property="og:type" content="article">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content='Voice "Cloning" is Style Transfer'>
   <meta name="twitter:description" content="Voice cloning models do not faithfully clone voices. They apply style transfer — and listeners trust the cloned voices more than the originals.">
-  <meta name="twitter:image" content="figures/fig_ratings.png">
+  <meta name="twitter:image" content="site_assets/fig_ratings.png">
 
   <style>
     :root {
@@ -290,7 +290,7 @@ trust the cloned voices more.
 </p>
 
 <figure>
-  <img src="figures/pipeline.png" alt="Study pipeline: 86 non-native English speakers record audio, three voice cloning models generate clones, 177 annotators rate paired clips.">
+  <img src="site_assets/pipeline.png" alt="Study pipeline: 86 non-native English speakers record audio, three voice cloning models generate clones, 177 annotators rate paired clips.">
   <figcaption>We recorded 86 non-native English speakers reading the Grandfather Passage, cloned each recording with three TTS systems, and had 177 monolingual English annotators rate paired source and cloned clips on a 1&ndash;5 Likert scale across seven dimensions. Cloned and original recordings were reordered to prevent annotators from deciphering which ones were generated.</figcaption>
 </figure>
 
@@ -376,7 +376,7 @@ The x-axis is the standard 1&ndash;5 Likert response scale. E.g., a <strong>+20%
 </div>
 
 <figure>
-  <img src="figures/fig_ratings.png" alt="Dumbbell chart showing cloned voices rated higher than source voices across seven Likert dimensions.">
+  <img src="site_assets/fig_ratings.png" alt="Dumbbell chart showing cloned voices rated higher than source voices across seven Likert dimensions.">
   <figcaption><strong>Figure 1.</strong> Paired ratings, aggregated across ElevenLabs V3, Coqui-XTTS, and Chatterbox. Every dimension shifts in the same direction: clones sound more authoritative, more warm, more native, more trustworthy, more humanlike. All differences significant at the 95% level via permutation test.</figcaption>
 </figure>
 
@@ -385,6 +385,10 @@ Cloned voices are rated more humanlike than the humans they were cloned from &md
 </blockquote>
 
 <h2>Why this matters</h2>
+
+<p>
+The well-documented harms of voice cloning &mdash; non-consensual impersonation, voice-phishing scams, fraud against family members and businesses &mdash; are real and growing, and nothing in this work should be read as discounting them. Our findings sit alongside that record, not in place of it: even when a clone is generated <em>with</em> a speaker's consent for an identity-preserving use, it still doesn't sound like them.
+</p>
 
 <h3>For users who want to preserve their voice</h3>
 <p>
@@ -402,7 +406,7 @@ The homogenization isn't random &mdash; it points at a specific prototype: fluen
 </p>
 
 <figure>
-  <img src="figures/fig_accent_sankey.png" alt="Three side-by-side flow diagrams showing speakers reclassified from non-native to Anglophone English after cloning. Coqui-XTTS reassigns 100% of non-native speakers; Chatterbox and ElevenLabs each reassign 78%.">
+  <img src="site_assets/accent_sankey.png" alt="Three side-by-side flow diagrams showing speakers reclassified from non-native to Anglophone English after cloning. Coqui-XTTS reassigns 100% of non-native speakers; Chatterbox and ElevenLabs each reassign 78%.">
   <figcaption><strong>Figure 2.</strong> Source accent (left bar) vs. CommonAccent classification of the cloned audio (right bar). Red ribbons trace speakers whose accent gets reassigned from a non-native variety to an Anglophone one. Coqui-XTTS reassigns <strong>100%</strong> of non-native speakers; Chatterbox and ElevenLabs each reassign <strong>78%</strong>.</figcaption>
 </figure>
 
@@ -412,18 +416,18 @@ We took each speaker's audio and ran 50 rounds of iterative cloning with Chatter
 </p>
 
 <figure>
-  <video src="figures/embeddings_movie.mp4"
-         poster="figures/fig_pca_snapshots_strip.png"
+  <video src="site_assets/embeddings_movie.mp4"
+         poster="site_assets/fig_pca_snapshots_strip.png"
          controls autoplay loop muted playsinline
          preload="metadata"
          style="width:100%; height:auto; border:1px solid var(--rule); border-radius:6px; background:white;">
-    <img src="figures/embeddings_movie.gif" alt="Animated PCA of ECAPA-TDNN speaker embeddings across 50 rounds of iterative cloning. Male and female speaker clouds start separated and collapse into a single cluster.">
+    <img src="site_assets/embeddings_movie.gif" alt="Animated PCA of ECAPA-TDNN speaker embeddings across 50 rounds of iterative cloning. Male and female speaker clouds start separated and collapse into a single cluster.">
   </video>
   <figcaption><strong>Figure 3.</strong> 50 rounds of iterative cloning with Chatterbox, visualized as a PCA of ECAPA-TDNN speaker embeddings. Each frame is one round of recursive cloning. At round&nbsp;0 (the source recordings), male (blue) and female (red) speakers form clearly separated clouds. By round&nbsp;50, the two clouds have collapsed into a single cluster &mdash; the model is converging to a fixed point in embedding space.</figcaption>
 </figure>
 
 <figure>
-  <img src="figures/fig_pca_snapshots_strip.png" alt="Three side-by-side PCA scatter plots at rounds 1, 25, and 50. Round 1 shows two clearly separated male and female clusters. Round 25 shows overlap beginning. Round 50 shows a single merged cluster.">
+  <img src="site_assets/fig_pca_snapshots_strip.png" alt="Three side-by-side PCA scatter plots at rounds 1, 25, and 50. Round 1 shows two clearly separated male and female clusters. Round 25 shows overlap beginning. Round 50 shows a single merged cluster.">
   <figcaption><strong>Figure 3b.</strong> Static snapshots from the animation above &mdash; rounds 1, 25, and 50, same PCA basis.</figcaption>
 </figure>
 

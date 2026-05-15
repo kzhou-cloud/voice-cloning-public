@@ -1,0 +1,23 @@
+# Audio data (raw and anonymized). Never commit Prolific-ID-named files.
+# Anonymized audio belongs on Hugging Face, not git.
+audio_data/
+
+# Built feature caches — 25 MB, regenerable from audio_data/ via build_caches.py.
+# Users should rebuild after downloading the HF audio dataset.
+cache/
+
+# Canonical paper figures live in the paper repo, not here.
+figures_original/
+
+# Internal table-generation script (uses paper-only audit logic).
+make_tables.py
+
+# Local artifacts that shouldn't ship
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Defensive: never commit credentials or tokens
+*.token
+.env
+credentials.json

@@ -1,0 +1,57 @@
+# Voice "Cloning" is Style Transfer — public reproduction requirements.
+# Tested on Python 3.10. Pins are minimums known to work; newer versions
+# probably fine within the same minor.
+#
+# Install:
+#     pip install -r requirements.txt
+#
+# What you'll be able to do with just this:
+#   - run every notebook end-to-end against the shipped data/ and cache/
+#   - regenerate every figure in figures/ matching figures_original/
+#
+# What this does NOT install (only needed if you want to *rebuild* the
+# audio feature caches from scratch, not just use the shipped ones):
+#   - chatterbox-tts                (Chatterbox model, needs GPU for inference)
+#   - TTS                           (Coqui XTTS model, needs GPU)
+#   - elevenlabs                    (proprietary API client; needs a paid key)
+# Those are pinned at the bottom under [optional / TTS generation].
+
+# ── Core scientific stack ───────────────────────────────────────────────────
+numpy>=1.24
+pandas>=2.0
+scipy>=1.10
+scikit-learn>=1.3
+
+# ── Plotting ────────────────────────────────────────────────────────────────
+matplotlib>=3.7
+seaborn>=0.13
+plotly>=5.18
+kaleido>=0.2.1                    # Plotly → static PNG/PDF (Sankey, etc.)
+imageio-ffmpeg>=0.4.9             # bundles ffmpeg for matplotlib animations
+
+# ── Audio processing ────────────────────────────────────────────────────────
+librosa>=0.10                      # MFCC, spectral features, F0
+soundfile>=0.12
+
+# ── Speech embeddings / probes ──────────────────────────────────────────────
+torch>=2.0                         # required by speechbrain + audio2emotion
+torchaudio>=2.0
+speechbrain>=1.0                   # ECAPA-TDNN speaker embeddings
+onnxruntime>=1.16                  # NVIDIA audio2emotion-v3 runtime
+huggingface_hub>=0.20              # downloading model weights
+
+# ── Utilities ───────────────────────────────────────────────────────────────
+tqdm>=4.66
+requests>=2.31
+jupyter>=1.0                       # to run the .ipynb files
+ipython>=8.0
+
+# ── Optional / future work ──────────────────────────────────────────────────
+# Used by build_caches.py / generate_speech.py / generate_iterative_clones.py
+# (not needed if you only want to use the shipped caches + reproduce figures).
+# chatterbox-tts>=0.1
+# TTS>=0.22                                                   # Coqui XTTS
+# elevenlabs>=1.0                                             # proprietary API client
+# umap-learn>=0.5                                             # alternative PCA viz
+# noisereduce>=3.0                                            # denoising ablations
+# lightgbm>=4.0                                               # extra speaker probes
