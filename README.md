@@ -15,4 +15,4 @@ The page includes:
 🧑‍🔬 **Authors:** Kaitlyn Zhou, Federico Bianchi, Martijn Bartelds, Anna Pot, Yongchan Kwon, James Zou.
 Cornell University · Together AI · Stanford University. Funded by Together AI.
 
-📬 Correspondence: kaitlynz@cornell.edu
+📬 Correspondence: kzhou@together.ai
