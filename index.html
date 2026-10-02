@@ -352,13 +352,13 @@ from that speaker's voice. Pay attention to accent.
     Clones are rated more <em>authoritative</em> (<strong>+19%</strong>), more <em>warm</em> (<strong>+14%</strong>), more <em>customer-service-like</em> (<strong>+20%</strong>), and more <em>humanlike</em> (<strong>+14%</strong>) than the source recordings they came from.
   </li>
   <li><strong>Finding 2 &middot; Trust shift</strong>
-    Annotators report higher trust in cloned voices (<strong>+18%</strong>) and are more willing to have an intimate conversation with the clone (<strong>+17%</strong>) than with the original speaker.
+    Annotators report higher trust in cloned voices (<strong>+18%</strong>) and are more willing to have an intimate conversation with the clone (<strong>+17%</strong>) than with the original speaker. These gains are not just the accent shift in disguise: they hold for speakers who report no accent at all, and survive statistically controlling for perceived nativeness.
   </li>
   <li><strong>Finding 3 &middot; Accent homogenization</strong>
     Source speakers come from 22 language backgrounds. Their clones are pulled toward dominant Anglophone varieties: US, UK, Canadian, Australian, NZ. Native-English rating jumps <strong>+33%</strong>.
   </li>
   <li><strong>Finding 4 &middot; Identity collapse</strong>
-    A speaker-identity classifier reaches 85% accuracy on sources but only 41% on clones &mdash; a <strong>52% drop</strong>. Cross-sex misidentification roughly doubles. Speakers become harder to tell apart.
+    A speaker-identity probe on channel-robust ECAPA-TDNN embeddings reaches 94% accuracy on sources but <strong>as low as 61%</strong> on clones. The errors also scatter more widely across identities. Because those embeddings are built to ignore the recording channel, this is a loss of identity rather than an artifact of comparing microphones to synthesis.
   </li>
   <li><strong>Finding 5 &middot; Iterative drift &amp; convergence</strong>
     Cloning a clone, 50 times over, produces directional drift: pitch climbs, cosine similarity to the source collapses from <strong>0.65 to 0.15</strong>, and embeddings cluster together. The "style" is convergent.
@@ -438,7 +438,7 @@ We took each speaker's audio and ran 50 rounds of iterative cloning with Chatter
 We recruited 86 non-native English speakers via Prolific (sex-balanced, ages 19&ndash;64, self-reported accent strength 0&ndash;10) and asked them to read the <em>Grandfather Passage</em> &mdash; a nine-sentence standard text used in speech assessment. We split each recording into sentence-level clips, quality-checked them, and used <em>cross-sentence cloning</em>: the model gets sentence&nbsp;<em>&ell;</em> as reference and is asked to produce sentence&nbsp;<em>&ell;+1</em>, so it must extract generalizable speaker features rather than copy phonetic content.
 </p>
 <p>
-Annotators were monolingual US English speakers recruited via Prolific. Each session shuffled 10 source and 10 cloned clips from one model and one speaker-sex, so annotators were blind to which clips were human. We collected <strong>4,000 paired annotations from 177 annotators</strong>.
+Annotators were monolingual US English speakers recruited via Prolific. Each session shuffled 10 source and 10 cloned clips from one model and one speaker-sex, so annotators were blind to which clips were human. We collected <strong>4,000 paired annotations from 177 annotators</strong>. Every effect is estimated with crossed random effects for speaker, annotator and sentence, and holds after adjusting for per-clip duration, loudness, pitch and spectral centroid.
 </p>
 
 <h2 id="paper-link">The paper, the data, the code</h2>
