@@ -358,16 +358,16 @@ from that speaker's voice. Pay attention to accent.
     Clones are rated more <em>authoritative</em> (<strong>+19%</strong>), more <em>warm</em> (<strong>+14%</strong>), more <em>customer-service-like</em> (<strong>+20%</strong>), and more <em>humanlike</em> (<strong>+14%</strong>) than the source recordings they came from.
   </li>
   <li><strong>Finding 2 &middot; Trust shift</strong>
-    Annotators report higher trust in cloned voices (<strong>+18%</strong>) and are more willing to have an intimate conversation with the clone (<strong>+17%</strong>) than with the original speaker. These gains are not just the accent shift in disguise: they hold for speakers who report no accent at all, and survive statistically controlling for perceived nativeness.
+    Annotators report higher trust in cloned voices (<strong>+18%</strong>) and are more willing to have an intimate conversation with the clone (<strong>+17%</strong>) than with the original speaker. These gains are not just the accent shift in disguise: they are still present for speakers who report no accent at all, and remain after statistically controlling for perceived nativeness.
   </li>
   <li><strong>Finding 3 &middot; Accent homogenization</strong>
     Source speakers come from 22 language backgrounds. Their clones are pulled toward dominant Anglophone varieties: US, UK, Canadian, Australian, NZ. Native-English rating jumps <strong>+33%</strong>.
   </li>
-  <li><strong>Finding 4 &middot; Identity collapse</strong>
+  <li><strong>Finding 4 &middot; Identity loss</strong>
     A speaker-identity probe on channel-robust ECAPA-TDNN embeddings reaches 94% accuracy on sources but <strong>as low as 61%</strong> on clones. The errors also scatter more widely across identities. Because those embeddings are built to ignore the recording channel, this is a loss of identity rather than an artifact of comparing microphones to synthesis.
   </li>
   <li><strong>Finding 5 &middot; Iterative drift &amp; convergence</strong>
-    Cloning a clone, 50 times over, produces directional drift: pitch climbs, cosine similarity to the source collapses from <strong>0.65 to 0.15</strong>, and embeddings cluster together. The "style" is convergent.
+    Cloning a clone, 50 times over, produces directional drift: pitch climbs, cosine similarity to the source falls from <strong>0.65 to 0.15</strong>, and embeddings cluster together. The "style" is convergent.
   </li>
 </ul>
 
@@ -420,7 +420,7 @@ The homogenization isn't random &mdash; it points at a specific prototype: fluen
 
 <h2>What happens if you clone a clone?</h2>
 <p>
-We took each speaker's audio and ran 50 rounds of iterative cloning with Chatterbox. If cloning were faithful, the recordings should hover near the source. Instead, embeddings drift in a consistent direction, then converge into a single cluster &mdash; pitch climbs, similarity to the original collapses, and male and female speakers end up indistinguishable in embedding space.
+We took each speaker's audio and ran 50 rounds of iterative cloning with Chatterbox. If cloning were faithful, the recordings should hover near the source. Instead, embeddings drift in a consistent direction, then converge into a single cluster &mdash; pitch climbs, similarity to the original falls, and male and female speakers end up indistinguishable in embedding space.
 </p>
 
 <figure>
@@ -429,9 +429,9 @@ We took each speaker's audio and ran 50 rounds of iterative cloning with Chatter
          controls autoplay loop muted playsinline
          preload="metadata"
          style="width:100%; height:auto; border:1px solid var(--rule); border-radius:6px; background:white;">
-    <img src="site_assets/embeddings_movie.gif" alt="Animated PCA of ECAPA-TDNN speaker embeddings across 50 rounds of iterative cloning. Male and female speaker clouds start separated and collapse into a single cluster.">
+    <img src="site_assets/embeddings_movie.gif" alt="Animated PCA of ECAPA-TDNN speaker embeddings across 50 rounds of iterative cloning. Male and female speaker clouds start separated and merge into a single cluster.">
   </video>
-  <figcaption><strong>Figure 3.</strong> 50 rounds of iterative cloning with Chatterbox, visualized as a PCA of ECAPA-TDNN speaker embeddings. Each frame is one round of recursive cloning. At round&nbsp;0 (the source recordings), male (blue) and female (red) speakers form clearly separated clouds. By round&nbsp;50, the two clouds have collapsed into a single cluster &mdash; the model is converging to a fixed point in embedding space.</figcaption>
+  <figcaption><strong>Figure 3.</strong> 50 rounds of iterative cloning with Chatterbox, visualized as a PCA of ECAPA-TDNN speaker embeddings. Each frame is one round of recursive cloning. At round&nbsp;0 (the source recordings), male (blue) and female (red) speakers form clearly separated clouds. By round&nbsp;50, the two clouds have merged into a single cluster &mdash; the model is converging to a fixed point in embedding space.</figcaption>
 </figure>
 
 <figure>
