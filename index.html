@@ -308,13 +308,6 @@ Each pair below contains a source recording from a non-native English speaker an
 from that speaker's voice. Pay attention to accent.
 </p>
 
-<!--
-  MODEL LABELS for each clone are placeholders. The packaged WAVs in audio/ don't
-  carry model metadata; all three are 24 kHz mono PCM, which is consistent with
-  Chatterbox OR Coqui-XTTS output. Edit the .clone-model spans below to whichever
-  model generated each clip.
--->
-
 <div class="pair-heading">Example 1</div>
 <div class="audio-grid">
   <div class="audio-card source">
@@ -322,7 +315,7 @@ from that speaker's voice. Pay attention to accent.
     <audio controls preload="none" src="audio/ex1_original.wav"></audio>
   </div>
   <div class="audio-card cloned">
-    <div class="label">Cloned &middot; <span class="clone-model">Chatterbox</span></div>
+    <div class="label">Cloned &middot; <span class="clone-model">Coqui-XTTS</span></div>
     <audio controls preload="none" src="audio/ex1_cloned.wav"></audio>
   </div>
 </div>
@@ -334,7 +327,7 @@ from that speaker's voice. Pay attention to accent.
     <audio controls preload="none" src="audio/ex2_original.wav"></audio>
   </div>
   <div class="audio-card cloned">
-    <div class="label">Cloned &middot; <span class="clone-model">Chatterbox</span></div>
+    <div class="label">Cloned &middot; <span class="clone-model">Coqui-XTTS</span></div>
     <audio controls preload="none" src="audio/ex2_cloned.wav"></audio>
   </div>
 </div>
@@ -346,7 +339,7 @@ from that speaker's voice. Pay attention to accent.
     <audio controls preload="none" src="audio/ex3_original.wav"></audio>
   </div>
   <div class="audio-card cloned">
-    <div class="label">Cloned &middot; <span class="clone-model">Chatterbox</span></div>
+    <div class="label">Cloned &middot; <span class="clone-model">Coqui-XTTS</span></div>
     <audio controls preload="none" src="audio/ex3_cloned.wav"></audio>
   </div>
 </div>
@@ -414,7 +407,7 @@ The homogenization isn't random &mdash; it points at a specific prototype: fluen
 </p>
 
 <figure>
-  <img src="site_assets/accent_sankey.png" alt="Three side-by-side flow diagrams showing speakers reclassified from non-native to Anglophone English after cloning. Coqui-XTTS reassigns 100% of non-native speakers; Chatterbox and ElevenLabs each reassign 78%.">
+  <img src="site_assets/accent_sankey.png" alt="Three side-by-side flow diagrams showing speakers reclassified from non-native to Anglophone English after cloning. Coqui-XTTS reassigns all 18 speakers whose source accent was non-Anglophone; Chatterbox and ElevenLabs each reassign 14 of those 18.">
   <figcaption><strong>Figure 2.</strong> Source accent (left bar) vs. CommonAccent classification of the cloned audio (right bar). Red ribbons trace speakers whose accent gets reassigned from a non-native variety to an Anglophone one. Coqui-XTTS reassigns <strong>100%</strong> of non-native speakers; Chatterbox and ElevenLabs each reassign <strong>78%</strong>.</figcaption>
 </figure>
 
